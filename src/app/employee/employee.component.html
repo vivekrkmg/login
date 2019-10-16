@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{title}}</h1>
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-success alert-dismissable" *ngIf="msg">
+                <a href="#" class="close" (click)="clickMe()">&times;</a>
+                {{msg}}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+    <h2>Add New Employee:</h2>
+    <form class="form-horizontal" [formGroup]='addForm'>
+            
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  name="name" formControlName="name"
+                    [ngClass]="{ 'is-invalid': submitted && name.errors }" placeholder="Enter your name" >
+                <div *ngIf="submitted && name.errors" class="invalid-feedback">
+                    <div *ngIf="name.errors.required"> name is required</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  name="email" formControlName="email"
+                    placeholder="Enter your email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="position">Position:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  name="position" formControlName="position"
+                    placeholder="Enter your position">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" [disabled]="!addForm.valid" (click)="createemployee()"
+                    *ngIf="isSave">Save</button>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" (click)="updateemployee(employee)"
+                        *ngIf="!isSave">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <h2>Employee List:</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width=400>Name</th>
+                <th width=400>Email</th>
+                <th width=400>Position</th>
+                <th width=250>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of Employees;  trackBy: trackByFn;  let i=index;">
+                <td>{{employee.name}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.position}}</td>
+                <td>
+                    <a class="btn btn-success" (click)="editemployee(employee)">Edit</a>
+                    <a class="btn btn-danger" (click)="deletemployee(employee.id)">Delete</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <!-- <h2>Update Employee Details:</h2>
+    <form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="name">Name:</label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" 
+        name="name" [(ngModel)]="model2.name" placeholder="Enter your name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="position">Position:</label>
+        <div class="col-sm-10"> 
+        <input type="text" class="form-control" id="position"
+        name="position" [(ngModel)]="model2.position" placeholder="Enter your position">
+        </div>
+    </div>
+
+    
+    </form>  -->
+    <p><a  class="btn btn-danger" (click)="logout()" >Logout</a></p>
+</div>

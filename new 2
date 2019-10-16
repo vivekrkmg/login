@@ -1,0 +1,90 @@
+1567497335
+1567497448
+
+
+<button class ="btn btn-default" ><a [routerLink]="['/pay']" >
+              
+    pay</a></button>
+	
+	
+	
+	
+	<button class="btn btn-success" (click)="openCheckout()">payment</button>
+	
+	
+	key='pk_test_ouE6hM3uDJNpL0eAGZTvd5sS00ZUQoU89h';
+  stripe = Stripe(this.key);
+  amount=100;
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvc: string;
+  TokenID:string='';
+
+  Message: string;
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+  }
+  openCheckout() {
+        debugger
+        let id:string;
+       var handler = (<any>window).StripeCheckout.configure({
+        key: 'pk_test_ouE6hM3uDJNpL0eAGZTvd5sS00ZUQoU89h',
+           locale: 'auto',
+          token: function (token: any) {
+            debugger
+            this.TokenID = token.id; 
+            
+            this.createCharge();
+          }     
+       });
+       handler.open({
+          name: 'Demo Site',
+         description: '2 widgets',
+       amount: this.amount
+       });
+      
+       }
+     
+       updateToken(id:any){
+         debugger
+        this.TokenID= id;
+       }
+       
+  //  getToken() {
+  // debugger
+  
+
+  //    (<any>window).Stripe.card.createToken({
+      
+  //     number: this.cardNumber,
+  //     exp_month: this.expiryMonth,
+  //     exp_year: this.expiryYear,
+  //     cvc: this.cvc
+  //   },
+  //    (status: number, response: any) => {
+  //     debugger
+  //     if (status === 200) {
+  //       Swal.fire({
+  //         title: 'Done',
+  //         text: 'Payment Successfull',
+  //         type: 'warning',
+  //       })
+  //       this.Message ='';
+      
+  //      this.Message = `Success! Card token ${response.card.id}.`;
+  //     } else {
+  //       Swal.fire({
+  //         title: 'Error',
+  //         text: response.error.message,
+  //         type: 'warning',
+  //       })
+    
+  //     }
+    // });
+    //   }
+  navigate(){
+    this.router.navigate(['default-payment']);
+  }
+  }
